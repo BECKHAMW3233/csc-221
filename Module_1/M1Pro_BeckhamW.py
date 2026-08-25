@@ -6,7 +6,7 @@
 # the average, excluding the first three (atypical) values. Runs on a
 # sentinel loop (-1 to quit) instead of while True/break.
 
-from m1pro_functions import getValues, calcAverage
+from M1Pro_functions import getValues, calcAverage
 
 MINIMUM_VALUES = 8
 SENTINEL = -1
