@@ -1,0 +1,43 @@
+M1Pro - Pseudocode
+CSC221 - William Beckham
+
+START
+
+  Set MINIMUM_VALUES = 8
+  Set SENTINEL = -1
+
+  Display instructions to the user
+  Prompt user for n (number of values, or -1 to quit)
+
+  WHILE n is not equal to SENTINEL
+      IF n < MINIMUM_VALUES THEN
+          Display message: must enter at least MINIMUM_VALUES values
+      ELSE
+          CALL getValues(n) -> returns list of n weights
+          CALL calcAverage(list) -> returns average of list[3:]
+          Display the average
+      END IF
+      Prompt user again for n (number of values, or -1 to quit)
+  END WHILE
+
+  Display closing message
+
+END
+
+
+FUNCTION getValues(n)
+      Create empty list
+      FOR i = 1 to n
+          Prompt user for a weight value
+          Append value to list
+      END FOR
+      RETURN list
+END FUNCTION
+
+
+FUNCTION calcAverage(alist)
+      Slice alist starting at index 3 (drop first three atypical values)
+      Compute sum of sliced list
+      Divide sum by length of sliced list -> average
+      RETURN average
+END FUNCTION
