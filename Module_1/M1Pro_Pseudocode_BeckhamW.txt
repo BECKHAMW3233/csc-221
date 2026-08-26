@@ -6,32 +6,118 @@ START
   Set MINIMUM_VALUES = 8
   Set SENTINEL = -1
 
-  Display instructions to the user
-  Prompt user for n (number of values, or -1 to quit)
+  Configure logging: write all events to M1Pro_BeckhamW.log with timestamps
+  LOG "Program started."
+
+  Display instructions to the user, noting number of values must be a
+  whole number and weights must be zero or greater (whole numbers or decimals)
+  CALL getSampleCount("Number of values (whole number): ", SENTINEL) -> n
+      (asks for a whole number; if it equals SENTINEL, confirms with the
+       user before treating it as an exit request)
 
   WHILE n is not equal to SENTINEL
       IF n < MINIMUM_VALUES THEN
+          LOG (warning) "User entered n, below MINIMUM_VALUES"
           Display message: must enter at least MINIMUM_VALUES values
+          CALL getSampleCount("Number of values (or -1 to quit): ", SENTINEL) -> n
       ELSE
-          CALL getValues(n) -> returns list of n weights
-          CALL calcAverage(list) -> returns average of list[3:]
-          Display the average
+          CALL getValues(n, SENTINEL) -> (list, exitFlag)
+          IF exitFlag is TRUE THEN
+              LOG (info) "User exited mid weight-entry."
+              Set n = SENTINEL
+          ELSE
+              CALL calcAverage(list) -> returns average of list[3:]
+              Display the average
+              CALL getSampleCount("Number of values (or -1 to quit): ", SENTINEL) -> n
+          END IF
       END IF
-      Prompt user again for n (number of values, or -1 to quit)
   END WHILE
 
+  LOG "User entered sentinel value. Program ending normally."
   Display closing message
 
 END
 
 
-FUNCTION getValues(n)
+FUNCTION getInt(prompt)
+      REPEAT
+          Prompt user with prompt
+          TRY converting input to a whole number
+              IF successful THEN
+                  LOG (info) valid input received
+                  RETURN the number
+          CATCH invalid input
+              LOG (error) invalid input received
+              Display error message: not a valid whole number, try again
+      END REPEAT
+END FUNCTION
+
+
+FUNCTION getSampleCount(prompt, sentinel)
+      REPEAT
+          CALL getInt(prompt) -> n
+          IF n equals sentinel THEN
+              Ask user to confirm: "You entered sentinel. Do you want to exit? (y/n)"
+              IF user confirms (y) THEN
+                  LOG (info) user confirmed exit
+                  RETURN n
+              ELSE
+                  LOG (info) user declined exit after entering sentinel
+                  Display message: okay, let's continue
+                  (loop back and prompt again)
+              END IF
+          ELSE
+              RETURN n
+          END IF
+      END REPEAT
+END FUNCTION
+
+
+FUNCTION getFloat(prompt, sentinel)
+      REPEAT
+          Prompt user with prompt
+          TRY converting input to a number
+              IF successful THEN
+                  IF sentinel is given AND value equals sentinel THEN
+                      Ask user to confirm: "You entered sentinel. Did you mean to exit? (y/n)"
+                      IF user confirms (y) THEN
+                          LOG (info) user confirmed exit while entering a weight
+                          RETURN (value, TRUE)
+                      ELSE
+                          LOG (info) user entered sentinel as a real weight, not exiting
+                          LOG (warning) negative weight entered
+                          Display message: negative value not allowed, weights should be
+                          zero or greater, try again
+                          (loop back and prompt again)
+                      END IF
+                  ELSE IF value < 0 THEN
+                      LOG (warning) negative weight entered
+                      Display message: negative value not allowed, weights should be
+                      zero or greater, try again
+                      (loop back and prompt again)
+                  ELSE
+                      LOG (info) valid input received
+                      RETURN (value, FALSE)
+                  END IF
+          CATCH invalid input
+              LOG (error) invalid input received
+              Display error message: not a valid number, try again
+      END REPEAT
+END FUNCTION
+
+
+FUNCTION getValues(n, sentinel)
       Create empty list
       FOR i = 1 to n
-          Prompt user for a weight value
+          CALL getFloat("Enter weight #i: ", sentinel) -> (value, exitFlag)
+          IF exitFlag is TRUE THEN
+              LOG (info) exited early during weight entry
+              RETURN (list, TRUE)
+          END IF
           Append value to list
       END FOR
-      RETURN list
+      LOG (info) collected weights list
+      RETURN (list, FALSE)
 END FUNCTION
 
 
@@ -39,5 +125,6 @@ FUNCTION calcAverage(alist)
       Slice alist starting at index 3 (drop first three atypical values)
       Compute sum of sliced list
       Divide sum by length of sliced list -> average
+      LOG (info) original list, trimmed list, and computed average
       RETURN average
 END FUNCTION
