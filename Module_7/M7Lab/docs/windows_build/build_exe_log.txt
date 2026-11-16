@@ -1,0 +1,288 @@
+
+=== M7Lab: build the Windows .exe ===
+
+Python 3.13.17
+
+[1/5] Creating the virtual environment (venv)...
+
+[2/5] Activating the virtual environment...
+D:\a\csc-221\csc-221\Module_7\M7Lab\venv\Scripts\python.exe
+C:\hostedtoolcache\windows\Python\3.13.17\x64\python.exe
+C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe
+C:\Users\runneradmin\AppData\Local\Microsoft\WindowsApps\python.exe
+
+[3/5] Installing PyInstaller and the program's packages...
+Requirement already satisfied: pip in .\venv\Lib\site-packages (26.2.2)
+Collecting pip
+  Downloading pip-26.3-py3-none-any.whl.metadata (4.6 kB)
+Downloading pip-26.3-py3-none-any.whl (2.0 MB)
+   ---------------------------------------- 2.0/2.0 MB 41.3 MB/s  0:00:00
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 26.2.2
+    Uninstalling pip-26.2.2:
+      Successfully uninstalled pip-26.2.2
+Successfully installed pip-26.3
+Collecting flask>=3.1 (from -r requirements.txt (line 6))
+  Downloading flask-3.1.3-py3-none-any.whl.metadata (3.2 kB)
+Collecting pandas>=3.0 (from -r requirements.txt (line 7))
+  Downloading pandas-3.1.1-cp313-cp313-win_amd64.whl.metadata (16 kB)
+Collecting openpyxl>=3.1 (from -r requirements.txt (line 8))
+  Downloading openpyxl-3.1.5-py2.py3-none-any.whl.metadata (2.5 kB)
+Collecting pyinstaller (from -r requirements.txt (line 9))
+  Downloading pyinstaller-6.22.3-py3-none-win_amd64.whl.metadata (8.5 kB)
+Collecting blinker>=1.9.0 (from flask>=3.1->-r requirements.txt (line 6))
+  Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+Collecting click>=8.1.3 (from flask>=3.1->-r requirements.txt (line 6))
+  Downloading click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+Collecting itsdangerous>=2.2.0 (from flask>=3.1->-r requirements.txt (line 6))
+  Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+Collecting jinja2>=3.1.2 (from flask>=3.1->-r requirements.txt (line 6))
+  Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting markupsafe>=2.1.1 (from flask>=3.1->-r requirements.txt (line 6))
+  Downloading markupsafe-3.0.4-cp313-cp313-win_amd64.whl.metadata (2.8 kB)
+Collecting werkzeug>=3.1.0 (from flask>=3.1->-r requirements.txt (line 6))
+  Downloading werkzeug-3.1.9-py3-none-any.whl.metadata (4.1 kB)
+Collecting numpy>=2.0.2 (from pandas>=3.0->-r requirements.txt (line 7))
+  Downloading numpy-2.5.5-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+Collecting python-dateutil>=2.9.0 (from pandas>=3.0->-r requirements.txt (line 7))
+  Downloading python_dateutil-4.0.0-py3-none-any.whl.metadata (7.3 kB)
+Collecting tzdata (from pandas>=3.0->-r requirements.txt (line 7))
+  Downloading tzdata-2026.6-py2.py3-none-any.whl.metadata (1.4 kB)
+Collecting et-xmlfile (from openpyxl>=3.1->-r requirements.txt (line 8))
+  Downloading et_xmlfile-2.0.0-py3-none-any.whl.metadata (2.7 kB)
+Collecting altgraph (from pyinstaller->-r requirements.txt (line 9))
+  Downloading altgraph-0.17.5-py2.py3-none-any.whl.metadata (7.5 kB)
+Collecting packaging>=22.0 (from pyinstaller->-r requirements.txt (line 9))
+  Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Collecting pefile>=2022.5.30 (from pyinstaller->-r requirements.txt (line 9))
+  Downloading pefile-2024.8.26-py3-none-any.whl.metadata (1.4 kB)
+Collecting pyinstaller-hooks-contrib>=2026.7 (from pyinstaller->-r requirements.txt (line 9))
+  Downloading pyinstaller_hooks_contrib-2026.10-py3-none-any.whl.metadata (16 kB)
+Collecting pywin32-ctypes>=0.2.1 (from pyinstaller->-r requirements.txt (line 9))
+  Downloading pywin32_ctypes-0.2.3-py3-none-any.whl.metadata (3.9 kB)
+Collecting setuptools>=42.0.0 (from pyinstaller->-r requirements.txt (line 9))
+  Downloading setuptools-84.2.1-py3-none-any.whl.metadata (6.6 kB)
+Downloading flask-3.1.3-py3-none-any.whl (103 kB)
+Downloading pandas-3.1.1-cp313-cp313-win_amd64.whl (10.7 MB)
+   ---------------------------------------- 10.7/10.7 MB 84.8 MB/s  0:00:00
+Downloading openpyxl-3.1.5-py2.py3-none-any.whl (250 kB)
+Downloading pyinstaller-6.22.3-py3-none-win_amd64.whl (1.5 MB)
+   ---------------------------------------- 1.5/1.5 MB 34.3 MB/s  0:00:00
+Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+Downloading click-8.5.1-py3-none-any.whl (126 kB)
+Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+Downloading markupsafe-3.0.4-cp313-cp313-win_amd64.whl (14 kB)
+Downloading numpy-2.5.5-cp313-cp313-win_amd64.whl (12.6 MB)
+   ---------------------------------------- 12.6/12.6 MB 101.7 MB/s  0:00:00
+Downloading packaging-26.3-py3-none-any.whl (129 kB)
+Downloading pefile-2024.8.26-py3-none-any.whl (74 kB)
+Downloading pyinstaller_hooks_contrib-2026.10-py3-none-any.whl (463 kB)
+Downloading python_dateutil-4.0.0-py3-none-any.whl (92 kB)
+Downloading pywin32_ctypes-0.2.3-py3-none-any.whl (30 kB)
+Downloading setuptools-84.2.1-py3-none-any.whl (876 kB)
+   ---------------------------------------- 876.3/876.3 kB 29.0 MB/s  0:00:00
+Downloading werkzeug-3.1.9-py3-none-any.whl (228 kB)
+Downloading altgraph-0.17.5-py2.py3-none-any.whl (21 kB)
+Downloading et_xmlfile-2.0.0-py3-none-any.whl (18 kB)
+Downloading tzdata-2026.6-py2.py3-none-any.whl (348 kB)
+Installing collected packages: altgraph, tzdata, setuptools, pywin32-ctypes, pefile, packaging, numpy, markupsafe, itsdangerous, et-xmlfile, click, blinker, werkzeug, python-dateutil, pyinstaller-hooks-contrib, openpyxl, jinja2, pyinstaller, pandas, flask
+
+Successfully installed altgraph-0.17.5 blinker-1.9.0 click-8.5.1 et-xmlfile-2.0.0 flask-3.1.3 itsdangerous-2.2.0 jinja2-3.1.6 markupsafe-3.0.4 numpy-2.5.5 openpyxl-3.1.5 packaging-26.3 pandas-3.1.1 pefile-2024.8.26 pyinstaller-6.22.3 pyinstaller-hooks-contrib-2026.10 python-dateutil-4.0.0 pywin32-ctypes-0.2.3 setuptools-84.2.1 tzdata-2026.6 werkzeug-3.1.9
+6.22.3
+
+[4/5] Running the unit tests...
+test_build_app_for_each_program (test_m7lab.TestLauncher.test_build_app_for_each_program) ... ok
+test_launch_reports_startup_error_instead_of_crashing (test_m7lab.TestLauncher.test_launch_reports_startup_error_instead_of_crashing) ... ok
+test_menu_says_goodbye_on_exit (test_m7lab.TestLauncher.test_menu_says_goodbye_on_exit) ... ok
+test_parse_menu_choice_accepts_valid_options (test_m7lab.TestLauncher.test_parse_menu_choice_accepts_valid_options) ... ok
+test_parse_menu_choice_rejects_invalid_options (test_m7lab.TestLauncher.test_parse_menu_choice_rejects_invalid_options) ... ok
+test_run_web_app_serves_pages_until_stopped (test_m7lab.TestLauncher.test_run_web_app_serves_pages_until_stopped)
+Start the real server, fetch the home page, then 'press Enter'. ... ok
+test_adjust_recipe_level (test_m7lab.TestRecipeFunctions.test_adjust_recipe_level)
+Instructor feedback #2: adjust_sweetness / adjust_spice are now used. ... ok
+test_filter_recipes (test_m7lab.TestRecipeFunctions.test_filter_recipes) ... ok
+test_ingredients_use_title_case (test_m7lab.TestRecipeFunctions.test_ingredients_use_title_case)
+Instructor feedback #5. ... ok
+test_load_recipes (test_m7lab.TestRecipeFunctions.test_load_recipes) ... ok
+test_load_recipes_missing_file (test_m7lab.TestRecipeFunctions.test_load_recipes_missing_file) ... ok
+test_missing_level_is_reported_not_defaulted (test_m7lab.TestRecipeFunctions.test_missing_level_is_reported_not_defaulted)
+Instructor feedback #1: Caesar Salad has no spice level in the data. ... ok
+test_normalize_ignores_punctuation (test_m7lab.TestRecipeFunctions.test_normalize_ignores_punctuation)
+Instructor feedback #3. ... ok
+test_parse_adjust_amount (test_m7lab.TestRecipeFunctions.test_parse_adjust_amount) ... ok
+test_search_finds_punctuated_name (test_m7lab.TestRecipeFunctions.test_search_finds_punctuated_name) ... ok
+test_search_partial_and_empty (test_m7lab.TestRecipeFunctions.test_search_partial_and_empty) ... ok
+test_validate_level_out_of_range (test_m7lab.TestRecipeFunctions.test_validate_level_out_of_range) ... ok
+test_all_pages_load (test_m7lab.TestRecipeWebApp.test_all_pages_load) ... ok
+test_bad_input_shows_error_not_crash (test_m7lab.TestRecipeWebApp.test_bad_input_shows_error_not_crash) ... ok
+test_missing_data_file_raises (test_m7lab.TestRecipeWebApp.test_missing_data_file_raises) ... ok
+test_results (test_m7lab.TestRecipeWebApp.test_results) ... ok
+test_missing_exe_is_reported (test_m7lab.TestSubmissionZip.test_missing_exe_is_reported) ... ok
+test_should_include (test_m7lab.TestSubmissionZip.test_should_include) ... ok
+test_bad_query_raises_sqlite_error (test_m7lab.TestVetFunctions.test_bad_query_raises_sqlite_error) ... ok
+test_breed_charge_stats (test_m7lab.TestVetFunctions.test_breed_charge_stats) ... ok
+test_missing_database_raises_file_not_found (test_m7lab.TestVetFunctions.test_missing_database_raises_file_not_found)
+Instructor feedback: a missing database must not crash the program. ... ok
+test_owner_charges_total (test_m7lab.TestVetFunctions.test_owner_charges_total) ... ok
+test_parse_owner_id_invalid (test_m7lab.TestVetFunctions.test_parse_owner_id_invalid) ... ok
+test_parse_owner_id_valid (test_m7lab.TestVetFunctions.test_parse_owner_id_valid) ... ok
+test_sanitize_filename_component (test_m7lab.TestVetFunctions.test_sanitize_filename_component) ... ok
+test_vet_logging_keeps_its_own_log_file (test_m7lab.TestVetFunctions.test_vet_logging_keeps_its_own_log_file)
+Vet logging must not take over the root logger (the RPG logs there). ... ok
+test_all_pages_load (test_m7lab.TestVetWebApp.test_all_pages_load) ... ok
+test_bad_input_shows_error_not_crash (test_m7lab.TestVetWebApp.test_bad_input_shows_error_not_crash) ... ok
+test_missing_database_page (test_m7lab.TestVetWebApp.test_missing_database_page) ... ok
+test_results (test_m7lab.TestVetWebApp.test_results) ... ok
+test_defeat_restores_health_and_leaves_dungeon (test_rpg.TestCombat.test_defeat_restores_health_and_leaves_dungeon) ... ok
+test_flee_ends_the_fight (test_rpg.TestCombat.test_flee_ends_the_fight) ... ok
+test_invalid_combat_actions (test_rpg.TestCombat.test_invalid_combat_actions) ... ok
+test_melee_attack_blocked_at_range (test_rpg.TestCombat.test_melee_attack_blocked_at_range) ... ok
+test_victory_clears_the_room (test_rpg.TestCombat.test_victory_clears_the_room) ... ok
+test_wizard_can_cast (test_rpg.TestCombat.test_wizard_can_cast) ... ok
+test_bad_direction (test_rpg.TestExploring.test_bad_direction) ... ok
+test_camp (test_rpg.TestExploring.test_camp) ... ok
+test_camp_and_scout_only_outdoors (test_rpg.TestExploring.test_camp_and_scout_only_outdoors) ... ok
+test_inventory_equip_and_use (test_rpg.TestExploring.test_inventory_equip_and_use) ... ok
+test_leave_dungeon_needs_confirmation (test_rpg.TestExploring.test_leave_dungeon_needs_confirmation) ... ok
+test_settlement_rests_and_opens_shop (test_rpg.TestExploring.test_settlement_rests_and_opens_shop) ... ok
+test_world_and_dungeon_views (test_rpg.TestExploring.test_world_and_dungeon_views) ... ok
+test_describe_item (test_rpg.TestHelpers.test_describe_item) ... ok
+test_safe_save_name_blocks_paths (test_rpg.TestHelpers.test_safe_save_name_blocks_paths) ... ok
+test_validate_save_data (test_rpg.TestHelpers.test_validate_save_data) ... ok
+test_buy_and_sell (test_rpg.TestMerchant.test_buy_and_sell) ... ok
+test_cannot_buy_what_you_cannot_afford (test_rpg.TestMerchant.test_cannot_buy_what_you_cannot_afford) ... ok
+test_quest_only_once (test_rpg.TestMerchant.test_quest_only_once) ... ok
+test_shop_actions_need_a_merchant (test_rpg.TestMerchant.test_shop_actions_need_a_merchant) ... ok
+test_invalid_input_is_rejected (test_rpg.TestNewGame.test_invalid_input_is_rejected) ... ok
+test_valid_character_starts_on_world_map (test_rpg.TestNewGame.test_valid_character_starts_on_world_map) ... ok
+test_bad_requests_show_errors (test_rpg.TestRpgWebApp.test_bad_requests_show_errors) ... ok
+test_every_panel_renders (test_rpg.TestRpgWebApp.test_every_panel_renders) ... ok
+test_title_and_new_game (test_rpg.TestRpgWebApp.test_title_and_new_game) ... ok
+test_cannot_save_mid_fight (test_rpg.TestSaveLoad.test_cannot_save_mid_fight) ... ok
+test_load_rejects_bad_files (test_rpg.TestSaveLoad.test_load_rejects_bad_files) ... ok
+test_round_trip (test_rpg.TestSaveLoad.test_round_trip) ... ok
+
+----------------------------------------------------------------------
+Ran 63 tests in 1.369s
+
+OK
+
+[5/5] Building dist\M7Lab_Launcher.exe with PyInstaller...
+99 INFO: PyInstaller: 6.22.3, contrib hooks: 2026.10
+100 INFO: Python: 3.13.17
+119 INFO: Platform: Windows-2025Server-10.0.26100-SP0
+119 INFO: Python environment: D:\a\csc-221\csc-221\Module_7\M7Lab\venv
+119 INFO: wrote D:\a\csc-221\csc-221\Module_7\M7Lab\M7Lab_Launcher.spec
+121 INFO: Removing temporary files and cleaning cache in C:\Users\runneradmin\AppData\Local\pyinstaller
+122 INFO: Module search paths (PYTHONPATH):
+['D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Scripts\\pyinstaller.exe',
+ 'C:\\hostedtoolcache\\windows\\Python\\3.13.17\\x64\\python313.zip',
+ 'C:\\hostedtoolcache\\windows\\Python\\3.13.17\\x64\\DLLs',
+ 'C:\\hostedtoolcache\\windows\\Python\\3.13.17\\x64\\Lib',
+ 'C:\\hostedtoolcache\\windows\\Python\\3.13.17\\x64',
+ 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv',
+ 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages',
+ 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab']
+372 INFO: Appending 'datas' from .spec
+373 INFO: checking Analysis
+373 INFO: Building Analysis because Analysis-00.toc is non existent
+373 INFO: Looking for Python shared library...
+373 INFO: Using Python shared library: C:\hostedtoolcache\windows\Python\3.13.17\x64\python313.dll
+373 INFO: Running Analysis Analysis-00.toc
+373 INFO: Target bytecode optimization level: 0
+373 INFO: Initializing module dependency graph...
+374 INFO: Initializing module graph hook caches...
+384 INFO: Analyzing modules for base_library.zip ...
+1320 INFO: Processing standard module hook 'hook-encodings.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+1847 INFO: Processing standard module hook 'hook-math.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+3131 INFO: Processing standard module hook 'hook-pickle.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+3994 INFO: Processing standard module hook 'hook-heapq.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+4596 INFO: Caching module dependency graph...
+4627 INFO: Analyzing D:\a\csc-221\csc-221\Module_7\M7Lab\launcher.py
+4632 INFO: Processing standard module hook 'hook-sqlite3.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+4847 INFO: Processing standard module hook 'hook-webbrowser.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+4915 INFO: Processing standard module hook 'hook-sysconfig.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+4919 INFO: Processing standard module hook 'hook-_ctypes.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+5258 INFO: Processing pre-safe-import-module hook 'hook-typing_extensions.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+5259 INFO: SetuptoolsInfo: initializing cached setuptools info...
+5955 INFO: Processing standard module hook 'hook-platform.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+6008 INFO: Processing standard module hook 'hook-multiprocessing.util.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+6091 INFO: Processing standard module hook 'hook-xml.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+6991 INFO: Processing standard module hook 'hook-difflib.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+7199 INFO: Processing standard module hook 'hook-jinja2.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+8291 INFO: Processing pre-safe-import-module hook 'hook-importlib_metadata.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+8292 INFO: Setuptools: 'importlib_metadata' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.importlib_metadata'!
+8297 INFO: Processing standard module hook 'hook-setuptools.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+8307 INFO: Processing pre-safe-import-module hook 'hook-distutils.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+8331 INFO: Processing pre-safe-import-module hook 'hook-jaraco.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+8332 INFO: Setuptools: 'jaraco' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.jaraco'!
+8341 INFO: Processing pre-safe-import-module hook 'hook-more_itertools.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+8341 INFO: Setuptools: 'more_itertools' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.more_itertools'!
+8474 INFO: Processing standard module hook 'hook-_osx_support.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+8487 INFO: Processing pre-safe-import-module hook 'hook-packaging.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+8719 INFO: Processing standard module hook 'hook-setuptools._vendor.jaraco.text.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+8720 INFO: Processing pre-safe-import-module hook 'hook-importlib_resources.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+8727 INFO: Processing pre-safe-import-module hook 'hook-backports.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+8727 INFO: Setuptools: 'backports' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.backports'!
+9207 INFO: Processing pre-safe-import-module hook 'hook-tomli.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+9207 INFO: Setuptools: 'tomli' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.tomli'!
+9744 INFO: Processing pre-safe-import-module hook 'hook-wheel.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+9744 INFO: Setuptools: 'wheel' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.wheel'!
+9792 INFO: Processing standard module hook 'hook-setuptools._vendor.importlib_metadata.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+9810 INFO: Processing pre-safe-import-module hook 'hook-zipp.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+9810 INFO: Setuptools: 'zipp' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.zipp'!
+9843 INFO: Processing standard module hook 'hook-pandas.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+10682 INFO: Processing standard module hook 'hook-numpy.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+12605 INFO: Processing standard module hook 'hook-zoneinfo.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+13853 INFO: Processing standard module hook 'hook-pandas.io.formats.style.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+15936 INFO: Processing standard module hook 'hook-pandas.plotting.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+16321 INFO: Processing standard module hook 'hook-dateutil.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+17191 INFO: Processing standard module hook 'hook-openpyxl.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+17541 INFO: Processing standard module hook 'hook-xml.etree.cElementTree.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+18359 INFO: Processing standard module hook 'hook-xml.dom.domreg.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+18890 INFO: Processing standard module hook 'hook-pandas.io.clipboard.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+19248 INFO: Processing module hooks (post-graph stage)...
+19569 INFO: Processing standard module hook 'hook-tzdata.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+19873 INFO: Performing binary vs. data reclassification (638 entries)
+19907 INFO: Looking for ctypes DLLs
+19972 INFO: Analyzing run-time hooks ...
+19979 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+19982 INFO: Including run-time hook 'pyi_rth_pkgutil.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+19983 INFO: Including run-time hook 'pyi_rth_multiprocessing.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+19985 INFO: Including run-time hook 'pyi_rth_setuptools.py' from 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+20030 INFO: Creating base_library.zip...
+20048 INFO: Looking for dynamic libraries
+20827 INFO: Extra DLL search directories (AddDllDirectory): ['D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\numpy.libs', 'D:\\a\\csc-221\\csc-221\\Module_7\\M7Lab\\venv\\Lib\\site-packages\\pandas.libs']
+20827 INFO: Extra DLL search directories (PATH): []
+22596 INFO: Warnings written to D:\a\csc-221\csc-221\Module_7\M7Lab\build\M7Lab_Launcher\warn-M7Lab_Launcher.txt
+22695 INFO: Graph cross-reference written to D:\a\csc-221\csc-221\Module_7\M7Lab\build\M7Lab_Launcher\xref-M7Lab_Launcher.html
+22735 INFO: checking PYZ
+22735 INFO: Building PYZ because PYZ-00.toc is non existent
+22735 INFO: Building PYZ (ZlibArchive) D:\a\csc-221\csc-221\Module_7\M7Lab\build\M7Lab_Launcher\PYZ-00.pyz
+23818 INFO: Building PYZ (ZlibArchive) D:\a\csc-221\csc-221\Module_7\M7Lab\build\M7Lab_Launcher\PYZ-00.pyz completed successfully.
+23855 INFO: checking PKG
+23855 INFO: Building PKG because PKG-00.toc is non existent
+23855 INFO: Building PKG (CArchive) M7Lab_Launcher.pkg
+31226 INFO: Building PKG (CArchive) M7Lab_Launcher.pkg completed successfully.
+31239 INFO: Bootloader D:\a\csc-221\csc-221\Module_7\M7Lab\venv\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\run.exe
+31239 INFO: checking EXE
+31239 INFO: Building EXE because EXE-00.toc is non existent
+31239 INFO: Building EXE from EXE-00.toc
+31239 INFO: Copying bootloader EXE to D:\a\csc-221\csc-221\Module_7\M7Lab\dist\M7Lab_Launcher.exe
+31241 INFO: Copying icon to EXE
+31242 INFO: Copying 0 resources to EXE
+31242 INFO: Embedding manifest in EXE
+31244 INFO: Appending PKG archive to EXE
+31260 INFO: Fixing EXE headers
+31536 INFO: Building EXE from EXE-00.toc completed successfully.
+31549 INFO: Build complete! The results are available in: D:\a\csc-221\csc-221\Module_7\M7Lab\dist
+
+==========================================================
+ BUILD SUCCEEDED:  D:\a\csc-221\csc-221\Module_7\M7Lab\dist\M7Lab_Launcher.exe
+ Next: double-click it to test, then run
+       python make_submission_zip.py
+==========================================================
+
+Press any key to continue . . . 

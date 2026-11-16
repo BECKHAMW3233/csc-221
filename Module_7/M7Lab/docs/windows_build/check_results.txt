@@ -1,0 +1,21 @@
+Windows: Microsoft Windows [Version 10.0.26100.33674]
+Python: 3.13.17
+Checks passed: 17/17
+
+PASS  vet home page
+PASS  vet OWNER table + CSV save
+PASS  vet total charge 1011 = $80.00
+PASS  vet breed average $50.00
+PASS  vet bad OwnerId handled
+PASS  recipe all (missing level reported)
+PASS  recipe search ignores punctuation
+PASS  recipe adjust level
+PASS  rpg title screen
+PASS  rpg bad age rejected
+PASS  rpg new game -> world map
+PASS  rpg move east
+PASS  rpg inventory panel
+PASS  rpg save game
+PASS  exe exits with code 0
+PASS  submission zip created
+PASS  submission zip has no venv
