@@ -1,0 +1,16 @@
+# Virtual environment and PyInstaller work files (never commit these)
+venv/
+.venv/
+build/
+*.spec
+__pycache__/
+*.pyc
+
+# Files the program creates while running
+logs/
+saves/
+output/
+
+# dist/ is ignored except the Windows .exe, which the GitHub workflow commits
+dist/*
+!dist/M7Lab_Launcher.exe

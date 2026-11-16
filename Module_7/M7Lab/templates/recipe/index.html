@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block menu %}
+<div class="menu">
+  <div class="card"><h2><span class="num">1</span>View all recipes</h2>
+    <a class="btn" href="/all">Show all</a></div>
+  <div class="card"><h2><span class="num">2</span>Search by name</h2>
+    <form action="/search"><input name="name" placeholder="e.g. veggie stir fry" aria-label="Recipe name"
+      value="{{ form.name if request.path == '/search' else '' }}"><button>Search</button></form></div>
+  <div class="card"><h2><span class="num">3</span>Filter by type</h2>
+    <form action="/filter"><select name="type" aria-label="Recipe type">
+      {% for key, label in filter_options.items() %}
+      <option value="{{ key }}" {% if form.type == key %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}</select><button>Filter</button></form></div>
+  <div class="card"><h2><span class="num">4</span>Adjust sweetness / spice</h2>
+    <form action="/adjust"><select name="name" aria-label="Recipe">
+      {% for r in recipes %}{% if type_label(r) != 'Recipe' %}
+      <option {% if form.name == r.name %}selected{% endif %}>{{ r.name }}</option>
+      {% endif %}{% endfor %}</select>
+      <input name="amount" placeholder="+/- e.g. 2" aria-label="Adjust by" style="flex:0 1 90px"
+        value="{{ form.amount or '' }}"><button>Adjust</button></form></div>
+</div>
+{% endblock %}
+{% block result %}
+  {% if grid %}
+  <div class="scroll"><table class="data">
+    <tr><th>Name</th><th>Type</th><th>Vegetarian</th><th>Level</th><th>Ingredients</th><th>Steps</th></tr>
+    {% for name, values in grid %}
+    <tr><td><strong>{{ name }}</strong></td><td>{{ values.Type }}</td><td>{{ values.Vegetarian }}</td>
+      <td {% if 'Not specified' in values.Level %}class="missing"{% endif %}>{{ values.Level }}</td>
+      <td style="white-space:normal">{{ values.Ingredients }}</td><td style="white-space:normal">{{ values.Steps }}</td></tr>
+    {% endfor %}
+  </table></div>
+  {% endif %}
+  {% if cards %}
+  <div class="recipes">
+    {% for r in cards %}
+    <div class="card recipe">
+      <h3>{{ r.name }}</h3>
+      <p><span class="tag">{{ type_label(r) }}</span><span class="tag">Vegetarian: {{ 'Yes' if r.is_vegetarian else 'No' }}</span></p>
+      {% if type_label(r) != 'Recipe' %}
+      <p>{{ 'Sweetness' if type_label(r) == 'Dessert' else 'Spice' }} level:
+        <span {% if 'Not specified' in r.level_text() %}class="missing"{% endif %}>{{ r.level_text() }}</span></p>
+      {% endif %}
+      <p><strong>Ingredients:</strong> {{ r.ingredients | join(', ') }}</p>
+      <p><strong>Steps:</strong> {{ r.steps }}</p>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endblock %}

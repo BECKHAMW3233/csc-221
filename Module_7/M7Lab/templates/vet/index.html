@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block menu %}
+<div class="menu">
+  <div class="card"><h2><span class="num">1</span>Display OWNER table</h2>
+    <a class="btn" href="/owners">Show owners</a></div>
+  <div class="card"><h2><span class="num">2</span>Display PETS table</h2>
+    <a class="btn" href="/pets">Show pets</a></div>
+  <div class="card"><h2><span class="num">3</span>Owner and pet data</h2>
+    <form action="/owner"><input name="owner_id" placeholder="OwnerId, e.g. 1011" aria-label="OwnerId"
+      value="{{ form.owner_id if request.path == '/owner' else '' }}"><button>Look up</button></form></div>
+  <div class="card"><h2><span class="num">4</span>Total charge by owner</h2>
+    <form action="/charges"><input name="owner_id" placeholder="OwnerId, e.g. 1011" aria-label="OwnerId"
+      value="{{ form.owner_id if request.path == '/charges' else '' }}"><button>Calculate</button></form></div>
+  <div class="card"><h2><span class="num">5</span>Pets by breed</h2>
+    <form action="/breed"><input name="breed" placeholder="Breed, e.g. beagle" aria-label="Breed"
+      value="{{ form.breed or '' }}"><button>Search</button></form></div>
+</div>
+{% endblock %}
+{% block result %}
+  {% if table %}<div class="scroll">{{ table | safe }}</div>{% endif %}
+  {% if saved %}<p style="color:var(--muted);font-size:.9rem">Saved to {{ saved }}</p>{% endif %}
+{% endblock %}
