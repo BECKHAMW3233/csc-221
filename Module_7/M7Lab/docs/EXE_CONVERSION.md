@@ -9,9 +9,9 @@ executable, with a screenshot for each step.
 - **Part 2:** creating the virtual environment, installing PyInstaller and building
 - **Part 3:** building and running the Windows `.exe`, and making the submission zip
 
-> **Note on screenshots:** the terminal images in Parts 1 and 2 are the real
-> output of each command, captured as it ran. Part 3 uses screenshots taken on
-> Windows.
+> **Note on screenshots:** every terminal image is the real output of the
+> command, captured as it ran. Parts 1 and 2 were done on Linux. Part 3 was
+> built and tested on a real Windows machine (GitHub Actions `windows-latest`).
 
 ---
 
@@ -206,87 +206,101 @@ The program exited with code 0.
 
 ---
 
-## Part 3: Windows .exe
+## Part 3: The Windows .exe
 
 PyInstaller builds for the operating system it runs on, so the Windows `.exe`
-has to be built on Windows. These are the same steps as Part 2. Command
-Prompt uses `venv\Scripts\activate` instead of `source venv/bin/activate`,
-and `;` instead of `:` inside `--add-data`.
+was built on a **real Windows machine**: a GitHub Actions `windows-latest`
+runner (Windows Server 2025, version 10.0.26100) with Python 3.13.17. The
+workflow (`.github/workflows/m7lab-windows-build.yml` in the `csc-221` repo)
+runs the same `build_exe.bat` included in this project, tests the `.exe`, and
+saves the screenshots below.
 
-**You need:** Windows 10 or 11 and Python from python.org. Tick **"Add
-python.exe to PATH"** in the installer.
+- **Build log:** [`windows_build/build_exe_log.txt`](windows_build/build_exe_log.txt)
+- **Test results:** [`windows_build/check_results.txt`](windows_build/check_results.txt) (17/17 passed)
+- **Full .exe session:** [`windows_build/exe_run_transcript.txt`](windows_build/exe_run_transcript.txt)
 
-> 📸 **Screenshots:** for each step, press **Win + Shift + S**, capture the
-> window, and save it into `docs\screenshots\` with the file name shown.
-> The image then appears in this document automatically.
+> The console images show the real output of each command on that Windows
+> machine. The browser images are real screenshots of the pages the `.exe`
+> served, taken with Chromium on Windows.
 
-> ⚡ **Shortcut:** `build_exe.bat` runs steps 3.2 to 3.6 in one go.
-> Double-click it, or type `build_exe.bat` in Command Prompt. For the
-> screenshots, typing each command yourself, as shown below, gives the
-> clearest picture of every step.
+### 3.1 The project on Windows
 
-### 3.1 Open Command Prompt in the project folder
+![Windows: project folder](screenshots/05_01_win_project.png)
 
-In File Explorer, open the `M7Lab_beckhamwilliam` folder, click the address
-bar, type `cmd` and press Enter.
+### 3.2 `build_exe.bat` creates and activates the virtual environment
 
-📸 `05_01_win_cmd.png`
+`where python` points into `venv\Scripts`, so the venv is active.
 
-![Windows: Command Prompt in the project folder](screenshots/05_01_win_cmd.png)
+![Windows: create and activate venv](screenshots/05_02_win_venv.png)
 
-### 3.2 Create the virtual environment
-
-```bat
-python --version
-python -m venv venv
-```
-
-📸 `05_02_win_venv.png`
-
-![Windows: create venv](screenshots/05_02_win_venv.png)
-
-### 3.3 Activate it
-
-The prompt starts with `(venv)` once it's active.
-
-```bat
-venv\Scripts\activate
-where python
-```
-
-📸 `05_03_win_activate.png`
-
-![Windows: activate venv](screenshots/05_03_win_activate.png)
-
-### 3.4 Install PyInstaller and the program's packages
-
-```bat
-pip install -r requirements.txt
-pyinstaller --version
-```
-
-📸 `05_04_win_pip_install.png` (the end, showing "Successfully installed ..." and the version)
+### 3.3 PyInstaller and the program's packages are installed into the venv
 
 ![Windows: pip install](screenshots/05_04_win_pip_install.png)
 
-### 3.5 Run the unit tests
-
-```bat
-python -m unittest discover -s tests
-```
-
-It should end with `Ran 63 tests` and `OK`.
-
-📸 `05_05_win_tests.png`
+### 3.4 The unit tests run on Windows: 63 tests, OK
 
 ![Windows: unit tests](screenshots/05_05_win_tests.png)
 
-### 3.6 Build the .exe
+### 3.5 PyInstaller builds `dist\M7Lab_Launcher.exe`
 
-Copy and paste the whole command. The `^` at the end of each line continues
-it onto the next line in Command Prompt.
+Notice that the `user32` / `msvcrt` warnings from the Linux builds in Part 2
+are gone. Those libraries exist on Windows.
+
+![Windows: PyInstaller build](screenshots/05_06_win_build.png)
+
+### 3.6 The .exe in `dist\`
+
+![Windows: dist folder](screenshots/05_07_win_dist.png)
+
+### 3.7 Running the .exe by itself
+
+The `.exe` was copied **alone** into an empty temp folder and run with no
+Python or venv. It shows the menu, rejects an invalid choice (`9`), runs all
+three Flask apps, and says **Goodbye!** before closing.
+
+![Windows: launcher menu](screenshots/05_08_win_exe_menu.png)
+
+![Windows: full .exe session](screenshots/05_08b_win_exe_full_run.png)
+
+**The three programs, served by the Windows .exe:**
+
+![Windows: Vet Services from the exe](screenshots/05_09_win_exe_vet.png)
+
+![Windows: Recipe Manager from the exe](screenshots/05_10_win_exe_recipe.png)
+
+![Windows: Dungeon RPG from the exe](screenshots/05_11_win_exe_rpg.png)
+
+**Choosing 4 (Exit):**
+
+![Windows: Goodbye](screenshots/05_12_win_exe_goodbye.png)
+
+### 3.8 Files the .exe created next to itself
+
+![Windows: files created by the exe](screenshots/05_13_win_exe_files.png)
+
+### 3.9 The submission zip (code + exe, no venv)
+
+![Windows: submission zip](screenshots/05_14_win_zip.png)
+
+**Automated checks of the Windows .exe: 17 of 17 passed.** These were the
+same 14 page checks as Part 2, plus: the `.exe` exits with code 0, the
+submission zip is created, and the zip contains no venv.
+
+---
+
+## Building it yourself on your own PC
+
+You can repeat the build on any Windows PC with Python from python.org
+(tick **"Add python.exe to PATH"** when installing). Open Command Prompt in
+the project folder: in File Explorer, click the address bar, type `cmd` and
+press Enter. Then either double-click **`build_exe.bat`**, or run the steps
+one at a time:
 
 ```bat
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python -m unittest discover -s tests
 pyinstaller --onefile --console --clean --noconfirm --name M7Lab_Launcher ^
     --add-data "templates;templates" ^
     --add-data "vet_app\data;vet_app\data" ^
@@ -294,78 +308,12 @@ pyinstaller --onefile --console --clean --noconfirm --name M7Lab_Launcher ^
     --add-data "rpg_app\game\data;rpg_app\game\data" ^
     --hidden-import openpyxl ^
     launcher.py
-```
-
-It takes about a minute and should end with `Build complete!`.
-
-📸 `05_06_win_build.png` (the end of the output)
-
-![Windows: PyInstaller build](screenshots/05_06_win_build.png)
-
-### 3.7 The .exe in `dist\`
-
-Open the `dist` folder in File Explorer.
-
-📸 `05_07_win_dist.png`
-
-![Windows: dist folder with M7Lab_Launcher.exe](screenshots/05_07_win_dist.png)
-
-### 3.8 Run the .exe
-
-Double-click `dist\M7Lab_Launcher.exe`. The first start takes a few seconds
-while it unpacks.
-
-> If Windows shows **"Windows protected your PC"**, click **More info → Run
-> anyway**. PyInstaller programs aren't digitally signed, so SmartScreen
-> warns about them. This is normal.
-
-Pick each program, look at it in the browser, press Enter in the launcher
-window to stop it, and finish with `4` (Exit).
-
-📸 `05_08_win_exe_menu.png` (the launcher menu)
-
-![Windows: launcher menu](screenshots/05_08_win_exe_menu.png)
-
-📸 `05_09_win_exe_vet.png` (Vet Services in the browser)
-
-![Windows: Vet Services from the exe](screenshots/05_09_win_exe_vet.png)
-
-📸 `05_10_win_exe_recipe.png` (Recipe Manager in the browser)
-
-![Windows: Recipe Manager from the exe](screenshots/05_10_win_exe_recipe.png)
-
-📸 `05_11_win_exe_rpg.png` (Dungeon RPG in the browser)
-
-![Windows: Dungeon RPG from the exe](screenshots/05_11_win_exe_rpg.png)
-
-📸 `05_12_win_exe_goodbye.png` (the "Goodbye!" message after choosing 4)
-
-![Windows: Goodbye message](screenshots/05_12_win_exe_goodbye.png)
-
-### 3.9 Files the .exe created
-
-Next to `M7Lab_Launcher.exe` in `dist\` you'll now see `output\` (CSV
-files), `logs\` and, if you saved a game, `saves\`.
-
-📸 `05_13_win_exe_files.png`
-
-![Windows: files created next to the exe](screenshots/05_13_win_exe_files.png)
-
-### 3.10 Make the submission zip (code + exe, no venv)
-
-```bat
 python make_submission_zip.py
 ```
 
-This creates `M7Lab_beckhamwilliam.zip` next to the project folder. It
-contains the Python code, data, tests, docs and `dist\M7Lab_Launcher.exe`,
-and leaves out `venv\`, `build\`, saves, logs and caches.
-
-📸 `05_14_win_zip.png`
-
-![Windows: submission zip created](screenshots/05_14_win_zip.png)
-
----
+The `.exe` appears in `dist\`. Double-click it to run. If Windows shows
+**"Windows protected your PC"**, click **More info → Run anyway**.
+PyInstaller programs aren't digitally signed, so SmartScreen warns about them.
 
 ## Troubleshooting
 
@@ -376,4 +324,4 @@ and leaves out `venv\`, `build\`, saves, logs and caches.
 | `pip install` fails building **pandas** or **numpy** | Your Python is too new for the available pre-built packages. Install **Python 3.13** from python.org, delete the `venv` folder, and start again from 3.2. |
 | Antivirus deletes or quarantines the .exe | PyInstaller one-file programs sometimes trigger false alarms. Restore the file, or add an exception for the `dist` folder. |
 | The browser doesn't open | Copy the `http://127.0.0.1:...` address shown in the launcher window into your browser. |
-| `Could not create the zip ... not found` | The .exe hasn't been built yet. Run step 3.6 (or `build_exe.bat`) first. |
+| `Could not create the zip ... not found` | The .exe hasn't been built yet. Run `build_exe.bat` (or the `pyinstaller` command) first. |

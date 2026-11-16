@@ -45,6 +45,14 @@ save/load.
 
 ## Build the .exe (Windows)
 
+**The Windows `.exe` is already built:** `dist/M7Lab_Launcher.exe` was built
+and tested on a real Windows machine by the GitHub Actions workflow
+`.github/workflows/m7lab-windows-build.yml` in this repo. All 63 unit tests
+and 17 of 17 `.exe` checks passed. Results are in `docs/windows_build/` and
+Part 3 of `docs/EXE_CONVERSION.md`.
+
+To build it yourself:
+
 Double-click **`build_exe.bat`**. It creates the venv, installs PyInstaller
 and the packages, runs the tests, and builds `dist\M7Lab_Launcher.exe`.
 Then make the submission zip (code + exe, no venv):
@@ -70,7 +78,8 @@ M7Lab_beckhamwilliam/
 │   └── game/              original game rules: models/, dice.py, database.py, config.py, data/*.json
 ├── templates/             HTML pages for all three apps
 ├── tests/                 test_m7lab.py (launcher, M5Pro, M3Pro) and test_rpg.py (Dungeon RPG)
-├── docs/                  EXE_CONVERSION.md and screenshots
+├── docs/                  EXE_CONVERSION.md, screenshots, windows_build/ (Windows build logs)
+├── dist/M7Lab_Launcher.exe  the Windows .exe (built by GitHub Actions)
 └── requirements.txt
 ```
 
