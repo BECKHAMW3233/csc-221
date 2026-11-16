@@ -62,8 +62,8 @@ jobs:
             echo "build step: ${{ steps.build.outcome }}"
             echo "check step: ${{ steps.check.outcome }}"
           } > docs/windows_build/status.txt
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "William Beckham"
+          git config user.email "156467180+BECKHAMW3233@users.noreply.github.com"
           git add docs/windows_build
           if [ -f dist/M7Lab_Launcher.exe ]; then git add -f dist/M7Lab_Launcher.exe; fi
           git add docs/screenshots/05_*.png 2>/dev/null || true
