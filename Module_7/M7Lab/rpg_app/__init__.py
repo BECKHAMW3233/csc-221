@@ -14,6 +14,7 @@ import logging
 from flask import Flask, redirect, render_template, request
 
 from app_paths import resource_path
+from web_exit import add_exit_route
 
 from .controller import (
     EQUIPPABLE_TYPES,
@@ -97,4 +98,5 @@ def create_app(game: GameController = None):
             game.notify(f"Something went wrong: {error}", 'error')
         return redirect("/", code=303)
 
+    add_exit_route(app, "Dungeon RPG")
     return app

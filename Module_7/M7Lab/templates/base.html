@@ -11,7 +11,11 @@
     * { box-sizing: border-box; }
     body { margin:0; background:var(--bg); color:var(--ink);
            font:16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-    header { background:var(--ink); color:#fff; padding:16px 24px; }
+    header { background:var(--ink); color:#fff; padding:16px 24px; display:flex; flex-wrap:wrap; gap:10px 16px;
+             align-items:center; justify-content:space-between; }
+    form.exit { margin:0; }
+    .exit-btn { background:#c62828; color:#fff; font-weight:700; padding:8px 16px; border:2px solid #fff3; }
+    .exit-btn:hover { background:#a31f1f; }
     header h1 { margin:0; font-size:1.35rem; }
     header p { margin:2px 0 0; color:#c9cfdb; font-size:.9rem; }
     main { max-width:1400px; margin:0 auto; padding:20px 16px 40px; }
@@ -43,8 +47,14 @@
 </head>
 <body>
   <header>
+    <div>
     <h1>{{ app_title }}</h1>
     <p>CSC-221 M7Lab &middot; William Beckham</p>
+    </div>
+    <form class="exit" method="post" action="/exit"
+          onsubmit='return confirm({{ ("Close " ~ app_title ~ " and go back to the launcher menu?")|tojson }})'>
+      <button class="exit-btn" title="Close this app and return to the launcher">&#10005; Exit app</button>
+    </form>
   </header>
   <main>
     {% block menu %}{% endblock %}
@@ -57,6 +67,6 @@
     </section>
     {% endif %}
   </main>
-  <footer>To stop this app, close this tab and press Enter in the launcher window.</footer>
+  <footer>To close this app, click <strong>&#10005; Exit app</strong> (top right) or press Enter in the launcher window.</footer>
 </body>
 </html>

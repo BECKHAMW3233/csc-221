@@ -6,10 +6,14 @@ Run from the project folder:
 
 import io
 import logging
+import os
 import sqlite3
 import sys
 import tempfile
+import threading
+import time
 import unittest
+import urllib.request
 from contextlib import redirect_stdout
 from pathlib import Path
 from unittest import mock
@@ -19,6 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import launcher  # noqa: E402
 import make_submission_zip  # noqa: E402
 from recipe_app import create_app as create_recipe_app  # noqa: E402
+from rpg_app import create_app as create_rpg_app  # noqa: E402
 from recipe_app.data_loader import load_recipes  # noqa: E402
 from recipe_app.menu import (  # noqa: E402
     adjust_recipe_level,
@@ -43,6 +48,27 @@ RECIPE_FILE = Path(__file__).resolve().parents[1] / "recipe_app" / "data" / "rec
 
 
 # ---------------------------------------------------------------- launcher
+class FakeConsole:
+    """Stands in for launcher.ConsoleInput: hands back pre-typed lines."""
+
+    def __init__(self, lines, on_read=None):
+        self.lines = list(lines)
+        self.on_read = on_read
+
+    def read(self, prompt="", stop_event=None):
+        if self.on_read:
+            self.on_read(prompt)
+        if not self.lines:
+            raise EOFError
+        return self.lines.pop(0)
+
+
+def free_url():
+    """Pick a free port and return (port, url) so a test can reach the app."""
+    port = launcher.find_free_port()
+    return port, f"http://{launcher.HOST}:{port}/"
+
+
 class TestLauncher(unittest.TestCase):
     def test_parse_menu_choice_accepts_valid_options(self):
         for choice in ("1", "2", "3", "4", " 2 "):
@@ -62,8 +88,8 @@ class TestLauncher(unittest.TestCase):
 
     def test_menu_says_goodbye_on_exit(self):
         output = io.StringIO()
-        with mock.patch("builtins.input", side_effect=["7", "4"]), redirect_stdout(output):
-            launcher.main()
+        with redirect_stdout(output):
+            launcher.main(FakeConsole(["7", "4"]), open_browser=False)
         self.assertIn("not a valid option", output.getvalue())
         self.assertIn("Goodbye!", output.getvalue())
 
@@ -71,25 +97,76 @@ class TestLauncher(unittest.TestCase):
         output = io.StringIO()
         with mock.patch("launcher.build_app", side_effect=FileNotFoundError("missing db")), \
                 redirect_stdout(output):
-            self.assertFalse(launcher.launch("1", open_browser=False))
+            self.assertFalse(launcher.launch("1", FakeConsole([]), open_browser=False))
         self.assertIn("Could not start", output.getvalue())
 
-    def test_run_web_app_serves_pages_until_stopped(self):
-        """Start the real server, fetch the home page, then 'press Enter'."""
-        import urllib.request
+    def test_console_input_reads_lines_then_eof(self):
+        console = launcher.ConsoleInput(io.StringIO("2\n\n4"))
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual([console.read(), console.read(), console.read()], ["2", "", "4"])
+            with self.assertRaises(EOFError):
+                console.read()
 
+    def test_enter_stops_the_app(self):
+        """Start the real server, fetch the home page, then 'press Enter'."""
+        port, url = free_url()
+        pages = []
+        console = FakeConsole([""], on_read=lambda _prompt: pages.append(
+            urllib.request.urlopen(url, timeout=5).read().decode()))
+        with mock.patch("launcher.find_free_port", return_value=port), redirect_stdout(io.StringIO()):
+            stopped_by = launcher.run_web_app(create_vet_app(), "Vet", console, open_browser=False)
+        self.assertEqual(stopped_by, "enter")
+        self.assertIn("Vet Services", pages[0])
+        self.assertIn("Exit app", pages[0])
+
+    def test_browser_exit_button_returns_to_menu(self):
+        """Clicking Exit app in the browser stops the app, and nothing typed later is lost."""
+        port, url = free_url()
+        read_end, write_end = os.pipe()
+        console = launcher.ConsoleInput(os.fdopen(read_end, "r"))
         pages = []
 
-        def fetch_then_stop(_prompt):
-            pages.append(urllib.request.urlopen(url_holder[0], timeout=5).read().decode())
+        def click_exit_app():
+            for _ in range(100):  # wait for the server to come up
+                try:
+                    urllib.request.urlopen(url, timeout=1)
+                    break
+                except OSError:
+                    time.sleep(0.05)
+            request = urllib.request.Request(url + "exit", data=b"", method="POST")
+            pages.append(urllib.request.urlopen(request, timeout=5).read().decode())
 
-        url_holder = []
-        app = create_vet_app()
-        with mock.patch("launcher.find_free_port", return_value=launcher.find_free_port()) as port:
-            url_holder.append(f"http://{launcher.HOST}:{port.return_value}/")
+        clicker = threading.Thread(target=click_exit_app)
+        output = io.StringIO()
+        with mock.patch("launcher.find_free_port", return_value=port), redirect_stdout(output):
+            clicker.start()
+            stopped_by = launcher.run_web_app(create_recipe_app(), "Recipe", console, open_browser=False)
+            clicker.join(timeout=10)
+            os.write(write_end, b"2\n")  # the next menu choice must still arrive
+            next_choice = console.read("Enter your choice: ")
+        os.close(write_end)
+        self.assertEqual(stopped_by, "browser")
+        self.assertIn("has been closed", pages[0])
+        self.assertIn("Exit app' was clicked", output.getvalue())
+        self.assertEqual(next_choice, "2")
+
+    def test_exit_route_in_every_app(self):
+        for name, app in (("vet", create_vet_app()), ("recipe", create_recipe_app()), ("rpg", create_rpg_app())):
+            notify = mock.Mock()
+            app.config[launcher.EXIT_CONFIG_KEY] = notify
+            client = app.test_client()
             with redirect_stdout(io.StringIO()):
-                launcher.run_web_app(app, "Vet", open_browser=False, wait_for_stop=fetch_then_stop)
-        self.assertIn("Vet Services", pages[0])
+                self.assertIn(b"Exit app", client.get("/").data, name)
+            response = client.post("/exit")
+            self.assertEqual(response.status_code, 200, name)
+            self.assertIn(b"has been closed", response.data, name)
+            self.assertIn(b"launcher is showing its menu again", response.data, name)
+            notify.assert_called_once()
+
+    def test_exit_route_without_launcher(self):
+        response = create_recipe_app().test_client().post("/exit")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"You&#39;ve left the app", response.data)
 
 
 # ---------------------------------------------------------------- submission zip

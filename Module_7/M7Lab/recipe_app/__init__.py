@@ -7,6 +7,7 @@ Recipe classes, load_recipes(), and the menu.py functions.
 from flask import Flask, render_template, request
 
 from app_paths import resource_path
+from web_exit import add_exit_route
 
 from .app_logger import get_logger
 from .data_loader import load_recipes
@@ -102,4 +103,5 @@ def create_app(data_file=DATA_FILE):
                     summary=[f"{recipe.name}: {level_name} level is now {recipe.level_text()}."],
                     cards=[recipe])
 
+    add_exit_route(app, APP_TITLE)
     return app

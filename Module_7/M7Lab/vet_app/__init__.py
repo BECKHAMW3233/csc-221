@@ -11,6 +11,7 @@ from contextlib import closing
 from flask import Flask, render_template, request
 
 from app_paths import resource_path
+from web_exit import add_exit_route
 
 from .m5pro_functions import (
     DB_PATH,
@@ -127,6 +128,8 @@ def create_app():
                     table=dataframe_to_html(matches),
                     summary=[f"Total charges for '{breed}': ${total:.2f}",
                              f"Average charge for '{breed}': ${average:.2f}"])
+
+    add_exit_route(app, APP_TITLE)
 
     @app.errorhandler(FileNotFoundError)
     @app.errorhandler(sqlite3.Error)
