@@ -1,0 +1,80 @@
+
+=== M7Lab Program Launcher ===
+1) Vet Services (M5Pro) - Flask web app
+2) Recipe Manager (M3Pro) - Flask web app
+3) Dungeon RPG (CSC-121 -> CTS-285) - Flask web app
+4) Exit
+Enter your choice (1-4): 9
+Error: '9' is not a valid option. Please enter a number from 1 to 4.
+
+=== M7Lab Program Launcher ===
+1) Vet Services (M5Pro) - Flask web app
+2) Recipe Manager (M3Pro) - Flask web app
+3) Dungeon RPG (CSC-121 -> CTS-285) - Flask web app
+4) Exit
+Enter your choice (1-4): 1
+
+Starting Vet Services (M5Pro)...
+
+Vet Services (M5Pro) is running at http://127.0.0.1:49673/
+Opening it in your web browser...
+When you are done, click the red Exit button in the web page
+(or press Enter here) to close the app and come back to this menu.
+Saved to E:\New folder\csc-221\Module_7\M7Lab\dist\output\owner.csv
+Vet Services (M5Pro) was closed from the web page.
+
+=== M7Lab Program Launcher ===
+1) Vet Services (M5Pro) - Flask web app
+2) Recipe Manager (M3Pro) - Flask web app
+3) Dungeon RPG (CSC-121 -> CTS-285) - Flask web app
+4) Exit
+Enter your choice (1-4): 2
+
+Starting Recipe Manager (M3Pro)...
+
+Recipe Manager (M3Pro) is running at http://127.0.0.1:49681/
+Opening it in your web browser...
+When you are done, click the red Exit button in the web page
+(or press Enter here) to close the app and come back to this menu.
+Recipe Manager (M3Pro) was closed from the web page.
+
+=== M7Lab Program Launcher ===
+1) Vet Services (M5Pro) - Flask web app
+2) Recipe Manager (M3Pro) - Flask web app
+3) Dungeon RPG (CSC-121 -> CTS-285) - Flask web app
+4) Exit
+Enter your choice (1-4): 3
+
+Starting Dungeon RPG (CSC-121 -> CTS-285)...
+
+Dungeon RPG (CSC-121 -> CTS-285) is running at http://127.0.0.1:49688/
+Opening it in your web browser...
+When you are done, click the red Exit button in the web page
+(or press Enter here) to close the app and come back to this menu.
+Dungeon RPG (CSC-121 -> CTS-285) was closed from the web page.
+
+=== M7Lab Program Launcher ===
+1) Vet Services (M5Pro) - Flask web app
+2) Recipe Manager (M3Pro) - Flask web app
+3) Dungeon RPG (CSC-121 -> CTS-285) - Flask web app
+4) Exit
+Enter your choice (1-4): 1
+
+Starting Vet Services (M5Pro)...
+
+Vet Services (M5Pro) is running at http://127.0.0.1:49698/
+Opening it in your web browser...
+When you are done, click the red Exit button in the web page
+(or press Enter here) to close the app and come back to this menu.
+
+Vet Services (M5Pro) stopped.
+
+=== M7Lab Program Launcher ===
+1) Vet Services (M5Pro) - Flask web app
+2) Recipe Manager (M3Pro) - Flask web app
+3) Dungeon RPG (CSC-121 -> CTS-285) - Flask web app
+4) Exit
+Enter your choice (1-4): 4
+
+Goodbye! Thanks for using the M7Lab Program Launcher.
+Press Enter to close this window...

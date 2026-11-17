@@ -7,6 +7,7 @@ Recipe classes, load_recipes(), and the menu.py functions.
 from flask import Flask, render_template, request
 
 from app_paths import resource_path
+from web_exit import add_exit_route
 
 from .app_logger import get_logger
 from .data_loader import load_recipes
@@ -47,6 +48,7 @@ def create_app(data_file=DATA_FILE):
     """
     recipes = load_recipes(data_file)
     app = Flask(__name__, template_folder=str(resource_path("templates")))
+    add_exit_route(app, APP_TITLE)
     app.jinja_env.globals["type_label"] = recipe_type_label
 
     def show(**result):

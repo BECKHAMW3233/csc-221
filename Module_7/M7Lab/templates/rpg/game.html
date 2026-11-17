@@ -14,6 +14,9 @@
            gap:4px 16px; align-items:baseline; justify-content:space-between; }
   header h1 { margin:0; font-size:1.25rem; color:var(--gold); letter-spacing:.02em; }
   header .who { color:var(--muted); font-size:.92rem; }
+  header .head-right { display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center; }
+  button.exit { background:#c62828; color:#fff; border:2px solid #fff; padding:7px 16px; }
+  button.exit:hover, button.exit:focus-visible { background:#a31f1f; }
   main { max-width:1320px; margin:0 auto; padding:16px; }
   h2 { font-size:1.05rem; margin:0 0 10px; color:var(--gold); }
   h3 { font-size:.95rem; margin:14px 0 6px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
@@ -95,12 +98,19 @@
 {%- for k, v in kwargs.items() %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endfor -%}
 <button class="{{ cls }}"{% if disabled %} disabled{% endif %}{% if confirm %} onclick='return confirm({{ confirm|tojson }})'{% endif %}>{{ label }}</button></form>
 {%- endmacro %}
+{% macro exit_button(label='✕ Exit game') -%}
+<form method="post" action="{{ exit_url }}" class="inline"><button class="exit" title="Close the game and go back to the launcher menu"
+  onclick='return confirm({{ "Exit the Dungeon RPG and go back to the launcher menu?\nAny progress you have not saved will be lost."|tojson }})'>{{ label }}</button></form>
+{%- endmacro %}
 {% set p = game.player %}
 <body data-keys="{{ 1 if screen in ('play', 'inventory', 'skills', 'pause', 'merchant', 'confirm_leave') else '' }}"
       data-panel="{{ game.panel or '' }}">
 <header>
   <h1>{{ app_title }}</h1>
-  {% if p %}<span class="who">{{ p.name }} &middot; Level {{ p.level }} {{ p.title }} &middot; {{ game.location_text() }}</span>{% endif %}
+  <div class="head-right">
+    {% if p %}<span class="who">{{ p.name }} &middot; Level {{ p.level }} {{ p.title }} &middot; {{ game.location_text() }}</span>{% endif %}
+    {{ exit_button() }}
+  </div>
 </header>
 <main>
   {% if game.notices %}
@@ -217,8 +227,9 @@
     <div class="card overlay"><h2>Paused</h2>
       <div class="acts">{{ btn('close', 'Resume') }} {{ btn('save', 'Save Game', 'secondary') }}
         {{ btn('open_load', 'Load Game', 'secondary') }}
-        {{ btn('quit_to_title', 'Quit to Title', 'danger', confirm='Quit to the title screen? Unsaved progress will be lost.') }}</div>
-      <p class="muted" style="margin:10px 0 0">To close the whole program, go back to the launcher window and press Enter.</p></div>
+        {{ btn('quit_to_title', 'Quit to Title', 'danger', confirm='Quit to the title screen? Unsaved progress will be lost.') }}
+        {{ exit_button('✕ Exit to Launcher') }}</div>
+      <p class="muted" style="margin:10px 0 0">Exit to Launcher closes the game and takes you back to the launcher menu. Save first if you want to keep your progress.</p></div>
 
     {% elif screen == 'confirm_leave' %}
     <div class="card overlay"><h2>Leave Dungeon</h2><p>Leave the dungeon and return to the world map?</p>
@@ -354,7 +365,7 @@
 {% endif %}
 </main>
 <footer>{% if p %}Keys: W/A/S/D move &middot; E interact &middot; I inventory &middot; K skills &middot; C camp &middot; R scout &middot; Esc menu.{% endif %}
-  To stop this app, close this tab and press Enter in the launcher window.</footer>
+  Done? Click <strong>Exit game</strong> at the top to close the game and go back to the launcher menu.</footer>
 <script>
   (function () {
     var log = document.getElementById('combat-log');

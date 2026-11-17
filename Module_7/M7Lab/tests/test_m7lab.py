@@ -62,8 +62,9 @@ class TestLauncher(unittest.TestCase):
 
     def test_menu_says_goodbye_on_exit(self):
         output = io.StringIO()
-        with mock.patch("builtins.input", side_effect=["7", "4"]), redirect_stdout(output):
-            launcher.main()
+        answers = iter(["7", "4"])
+        with redirect_stdout(output):
+            launcher.main(read_line=lambda _prompt: next(answers))
         self.assertIn("not a valid option", output.getvalue())
         self.assertIn("Goodbye!", output.getvalue())
 
@@ -80,7 +81,7 @@ class TestLauncher(unittest.TestCase):
 
         pages = []
 
-        def fetch_then_stop(_prompt):
+        def fetch_then_stop(_prompt, _stop_event):
             pages.append(urllib.request.urlopen(url_holder[0], timeout=5).read().decode())
 
         url_holder = []
@@ -90,6 +91,49 @@ class TestLauncher(unittest.TestCase):
             with redirect_stdout(io.StringIO()):
                 launcher.run_web_app(app, "Vet", open_browser=False, wait_for_stop=fetch_then_stop)
         self.assertIn("Vet Services", pages[0])
+
+    def test_exit_button_in_web_page_returns_to_menu(self):
+        """Clicking Exit in the browser stops the server without pressing Enter."""
+        import urllib.request
+
+        port = launcher.find_free_port()
+        exit_url = f"http://{launcher.HOST}:{port}/exit-app"
+        pages = []
+
+        def click_exit_then_wait(_prompt, stop_event):
+            request = urllib.request.Request(exit_url, data=b"", method="POST")
+            pages.append(urllib.request.urlopen(request, timeout=5).read().decode())
+            # The launcher waits here; the Exit button must be what ends the wait.
+            self.assertTrue(stop_event.wait(timeout=5), "Exit button did not stop the app")
+
+        output = io.StringIO()
+        with mock.patch("launcher.find_free_port", return_value=port), redirect_stdout(output):
+            launcher.run_web_app(create_vet_app(), "Vet", open_browser=False,
+                                 wait_for_stop=click_exit_then_wait)
+        self.assertIn("has been closed", pages[0])
+        self.assertIn("was closed from the web page", output.getvalue())
+        with self.assertRaises(OSError):  # the server really stopped
+            urllib.request.urlopen(f"http://{launcher.HOST}:{port}/", timeout=2)
+
+    def test_keyboard_reads_lines_and_end_of_input(self):
+        keyboard = launcher.Keyboard(io.StringIO("2\n4\n"))
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(keyboard.read_line("> "), "2")
+            self.assertEqual(keyboard.read_line("> "), "4")
+            with self.assertRaises(EOFError):
+                keyboard.read_line("> ")
+
+    def test_keyboard_stops_waiting_when_exit_clicked(self):
+        import threading
+
+        class NeverTypes:
+            def readline(self):
+                threading.Event().wait()  # nobody presses Enter
+
+        stop_event = threading.Event()
+        stop_event.set()
+        with redirect_stdout(io.StringIO()):
+            self.assertIsNone(launcher.Keyboard(NeverTypes()).read_line("> ", stop_event))
 
 
 # ---------------------------------------------------------------- submission zip
@@ -309,3 +353,36 @@ class TestRecipeWebApp(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# ---------------------------------------------------------------- Exit button (all three apps)
+class TestExitButton(unittest.TestCase):
+    """Every program has a clearly marked Exit button that closes it from the web page."""
+
+    def apps(self):
+        from rpg_app import create_app as create_rpg_app
+        return {"vet": create_vet_app(), "recipe": create_recipe_app(), "rpg": create_rpg_app()}
+
+    def test_every_app_shows_exit_button(self):
+        for name, app in self.apps().items():
+            html = app.test_client().get("/").get_data(as_text=True)
+            self.assertIn('action="/exit-app"', html, name)
+            self.assertIn("Exit", html, name)
+
+    def test_exit_shows_closed_page_and_tells_launcher(self):
+        for name, app in self.apps().items():
+            calls = []
+            app.config["ON_EXIT"] = lambda: calls.append(True)
+            response = app.test_client().post("/exit-app")
+            response.close()  # the launcher is told only after the page is sent
+            self.assertEqual(response.status_code, 200, name)
+            self.assertIn("has been closed", response.get_data(as_text=True), name)
+            self.assertIn("launcher", response.get_data(as_text=True), name)
+            self.assertEqual(calls, [True], name)
+
+    def test_exit_without_launcher_still_shows_page(self):
+        response = create_vet_app().test_client().post("/exit-app")
+        self.assertEqual(response.status_code, 200)
+
+    def test_exit_needs_a_button_click_not_a_link(self):
+        self.assertEqual(create_vet_app().test_client().get("/exit-app").status_code, 405)

@@ -1,0 +1,25 @@
+M7Lab_Launcher.exe end-to-end run on DESKTOP-9QHNUQ9 - 2026-11-16 20:47
+exe: E:\New folder\csc-221\Module_7\M7Lab\dist\M7Lab_Launcher.exe (35.9 MB)
+
+[PASS] Launcher opens in a command prompt window and shows the menu
+[PASS] Invalid menu choice is rejected
+[PASS] Vet: red Exit app button on the page
+[PASS] Vet: OWNER table
+[PASS] Vet: breed search totals
+[PASS] Vet: bad OwnerId shows an error, not a crash
+[PASS] Vet: Exit app -> launcher back at the menu
+[PASS] Recipe: all recipes, missing level reported
+[PASS] Recipe: punctuation-insensitive search
+[PASS] Recipe: adjust sweetness
+[PASS] Recipe: Exit app -> launcher back at the menu
+[PASS] RPG: new character and world map
+[PASS] RPG: pause menu has Exit to Launcher
+[PASS] RPG: Exit game -> launcher back at the menu
+[PASS] Pressing Enter in the launcher also stops the app
+[PASS] Web server is really stopped afterwards
+[PASS] Choice 4 says Goodbye!
+[PASS] Launcher window closes after Enter  (exit code 0)
+[PASS] CSV files written next to the .exe  (owner.csv)
+[PASS] Log files written next to the .exe
+
+20 of 20 checks passed

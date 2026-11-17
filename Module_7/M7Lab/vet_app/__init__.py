@@ -11,6 +11,7 @@ from contextlib import closing
 from flask import Flask, render_template, request
 
 from app_paths import resource_path
+from web_exit import add_exit_route
 
 from .m5pro_functions import (
     DB_PATH,
@@ -50,6 +51,7 @@ def create_app():
         raise FileNotFoundError(f"Database file not found: {DB_PATH}")
 
     app = Flask(__name__, template_folder=str(resource_path("templates")))
+    add_exit_route(app, APP_TITLE)
 
     def show(**result):
         """Render the main page, with an optional result section."""

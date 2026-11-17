@@ -19,8 +19,11 @@ original code: characters, combat, dungeons, the world map, merchants and
 quests.
 
 When you pick 1, 2 or 3, the launcher starts that Flask app and opens it in your
-web browser. Press **Enter** in the launcher window to stop the app and go
-back to the menu.
+web browser. **Every page has a red Exit button** in the top-right corner.
+Clicking it closes that program and the launcher goes straight back to its
+menu, so you can pick another program or choose 4 to exit. (Pressing
+**Enter** in the launcher window also stops the app.) The Dungeon RPG asks
+for confirmation first, because unsaved progress would be lost.
 
 ## Run from source
 
@@ -39,17 +42,17 @@ python launcher.py
 python -m unittest discover -s tests -v
 ```
 
-There are 63 tests covering the launcher, all three programs' functions and every
-Flask page, including bad input, missing data files, combat outcomes and
-save/load.
+There are 70 tests covering the launcher, all three programs' functions and every
+Flask page, including bad input, missing data files, combat outcomes,
+save/load, and each program's Exit button returning to the launcher menu.
 
 ## Build the .exe (Windows)
 
-**The Windows `.exe` is already built:** `dist/M7Lab_Launcher.exe` was built
-and tested on a real Windows machine by the GitHub Actions workflow
-`.github/workflows/m7lab-windows-build.yml` in this repo. All 63 unit tests
-and 17 of 17 `.exe` checks passed. Results are in `docs/windows_build/` and
-Part 3 of `docs/EXE_CONVERSION.md`.
+**The Windows `.exe` is already built:** I built `dist/M7Lab_Launcher.exe`
+on my own PC (Windows 11, Python 3.14.6, PyInstaller 6.22.3) with
+`build_exe.bat`. All 70 unit tests passed during the build, and 20 of 20
+checks passed when running the `.exe`. Every step, with screenshots from
+my desktop, is in `docs/EXE_CONVERSION.md`. The logs are in `docs/local_build/`.
 
 To build it yourself:
 
@@ -78,8 +81,9 @@ M7Lab_beckhamwilliam/
 │   └── game/              original game rules: models/, dice.py, database.py, config.py, data/*.json
 ├── templates/             HTML pages for all three apps
 ├── tests/                 test_m7lab.py (launcher, M5Pro, M3Pro) and test_rpg.py (Dungeon RPG)
-├── docs/                  EXE_CONVERSION.md, screenshots, windows_build/ (Windows build logs)
-├── dist/M7Lab_Launcher.exe  the Windows .exe (built by GitHub Actions)
+├── web_exit.py            the Exit button route shared by all three Flask apps
+├── docs/                  EXE_CONVERSION.md, screenshots, local_build/ (build and run logs)
+├── dist/M7Lab_Launcher.exe  the Windows .exe (built on my PC with build_exe.bat)
 └── requirements.txt
 ```
 

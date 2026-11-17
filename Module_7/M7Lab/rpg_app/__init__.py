@@ -14,6 +14,7 @@ import logging
 from flask import Flask, redirect, render_template, request
 
 from app_paths import resource_path
+from web_exit import add_exit_route
 
 from .controller import (
     EQUIPPABLE_TYPES,
@@ -72,6 +73,7 @@ def create_app(game: GameController = None):
     """Build the Dungeon RPG Flask app (optionally around an existing GameController)."""
     game = game or GameController()
     app = Flask(__name__, template_folder=str(resource_path("templates")))
+    add_exit_route(app, "Dungeon RPG")
     app.jinja_env.globals.update(
         describe_item=describe_item,
         equippable_types=EQUIPPABLE_TYPES,
